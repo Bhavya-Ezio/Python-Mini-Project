@@ -18,7 +18,7 @@ class Encrypt:
             print(f"Error in reading the file:\n{e}")
 
     def encrypt(self):
-        self.cypherText=[]
+        self.encryptedText=[]
         self.sepLines()
         self.firstCypher()
         self.secondCypher()
@@ -38,8 +38,8 @@ class Encrypt:
             n=len(self.fileLines[i])
             for j in range(len(self.fileLines[i])):
                 res.append(self.fileLines[i][(j+self.code1)%n])
-            self.cypherText.append(res)
-        # print("cypher text:",self.cypherText)
+            self.encryptedText.append(res)
+        # print("cypher text:",self.encryptedText)
 
     def addStrInt(self,my_char,num):
         if num==1:
@@ -49,22 +49,23 @@ class Encrypt:
         return chr(new_code)
 
     def secondCypher(self):
-        m=len(self.cypherText)
+        m=len(self.encryptedText)
         res=""
         for i in range(m):
-            n=len(self.cypherText[i])
+            n=len(self.encryptedText[i])
             for j in range(n):
-                for k in range(len(self.cypherText[i][j])):
+                x=len(self.encryptedText[i][j])
+                for k in range(x):
                     if k%2==0:
-                        res+=self.addStrInt(self.cypherText[i][j][k],2)
+                        res+=self.addStrInt(self.encryptedText[i][j][k],2)
                     else:
-                        res+=self.addStrInt(self.cypherText[i][j][k],1)
-                res+=" "
+                        res+=self.addStrInt(self.encryptedText[i][j][k],1)
+                if j!=n-1:
+                    res+=" "
             if i!=m-1:
                 res+="\n"
-        self.cypherText=[]
-        self.cypherText=res
-        # print("\n\nSecond cypher:\n"+self.cypherText)
+        self.encryptedText=res
+        # print("\n\nSecond cypher:\n"+self.encryptedText)
 
     def encryptDataFile(self):
         i=1
@@ -72,12 +73,13 @@ class Encrypt:
             i+=1
         try:
             fileObj=open(f"file{i}.txt","w")
-            fileObj.write(self.cypherText)
+            fileObj.write(self.encryptedText)
+            file_path = os.path.abspath(fileObj.name)
+            print(f"New file created with cyphered text at :{file_path}")
             fileObj.close()
         except Exception as x:
             print(f"Error in creating encrypt file:\n{x}")
-        file_path = os.path.abspath(fileObj.name)
-        print(f"New file created with cyphered text at :{file_path}")
+        
 
     def __str__(self) -> str:
         return f"file name: {self.fileName}\ncode: {self.code1,self.code2,self.code3}"

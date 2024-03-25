@@ -1,10 +1,14 @@
+import os
+
 class Decrypt:
 
     def __init__(self,file,code) -> None:
         self.fileName=file
-        self.code=code
-        self.code1=(code//10)
+        self.code3=code%10
+        code=code//10
         self.code2=code%10
+        code=code//10
+        self.code1=code
         try:
             self.fileObj=open(self.fileName)
             try:
@@ -28,11 +32,57 @@ class Decrypt:
             self.fileLines[i]=self.fileLines[i].split(" ")
         print(self.fileLines)
     
-    def subStrInt(self,my_char:int):
-        new_code = ord(my_char) - self.code2
-        shifted_char = chr(new_code)    
-        return shifted_char
+    def firstDecrypt(self):
+        m=len(self.fileLines)
+        for i in range(m):
+            res=[]
+            n=len(self.fileLines[i])
+            for j in range(len(self.fileLines[i])):
+                res.append(self.fileLines[i][(j-self.code1)%n])
+            self.decryptedText.append(res)
+        # print("first decrypt:\n",self.decryptedText)
+     
+    def subStrInt(self,my_char,num):
+        if num==1:
+            new_code = ord(my_char) - self.code2 
+        else:
+            new_code = ord(my_char) - self.code3     
+        return chr(new_code)
     
+    def secondDecrypt(self):
+        m=len(self.decryptedText)
+        res=""
+        for i in range(m):
+            n=len(self.decryptedText[i])
+            for j in range(n):
+                x=len(self.decryptedText[i][j])
+                for k in range(x):
+                    if k%2==0:
+                        res+=self.subStrInt(self.decryptedText[i][j][k],2)
+                    else:
+                        res+=self.subStrInt(self.decryptedText[i][j][k],1)
+                if j!=n-1:
+                    res+=" "
+            if i!=m-1:
+                res+="\n"
+        self.decryptedText=res
+        print("second decrypt:\n"+self.decryptedText+"\n\n")
+
+    def decryptDataFile(self):
+        i=1
+        while os.path.exists(f"file{i}.txt"):
+            i+=1
+        
+        try:
+            fileObj=open(f"file{i}.txt","w")
+            fileObj.write(self.decryptedText)
+            file_path = os.path.abspath(fileObj.name)
+            print(f"New file created with decyphered text at :{file_path}")
+            fileObj.close()
+        except Exception as x:
+            print(f"Error in creating encrypt file:\n{x}")
+        
+
     def __str__(self) -> str:
         return f"file name: {self.fileName} code: {self.code}"
     
