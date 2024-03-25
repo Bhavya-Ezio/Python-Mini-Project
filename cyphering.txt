@@ -1,0 +1,5 @@
+Hello my name is Bhavya
+1 class to encrypt and decrypt data
+how to do it: using 2 digit key:=
+    first digit(f) shifts words of line 'f' times
+    second digit(s) shifts the character 's' times like is ASCII 
