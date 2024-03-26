@@ -1,20 +1,18 @@
 from Encrypter import Encrypt as en
 from Decryptor import Decrypt as de
-# choice=input("Enter your choice (Encrypt/Decrypt): ")
-choice="D"
-if choice=="E":
 
-    # fname=input("Enter the name of file: ")
-    # code=input("Enter a 3 digit code for the file: ")
-    enObj=en("file.txt",123)
+choice=input("Enter your choice (E for Encryption/D for Decryption): ")
+if choice=="E" or choice == "e":
+    fname=input("Enter the name of file: ")
+    code=(int)(input("Enter a 3 digit code for the file: "))
+    enObj=en(fname,code)
     print(enObj)
     enObj.encrypt()
     del enObj
 
-if choice=="D":
-    # fname=input("Enter the name of file: ")
-    # code=input("Enter a 3 digit code for the file: ")
-    enObj=de("file1.txt",123)
-    # print(enObj)
-    enObj.decrypt()
-    del enObj
+if choice=="D" or choice=="d":
+    fname=input("Enter the name of file: ")
+    code=(int)(input("Enter a 3 digit code for the file: "))
+    deObj=de(fname,code)
+    deObj.decrypt()
+    del deObj
