@@ -2,7 +2,7 @@ import os
 
 class Decrypt:
 
-    def __init__(self,file,code) -> None:
+    def __init__(self,file,code):
         self.fileName=file
         self.code3=code%10
         code=code//10
