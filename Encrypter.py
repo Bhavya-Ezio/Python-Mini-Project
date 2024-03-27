@@ -68,17 +68,36 @@ class Encrypt:
         # print("\n\nSecond cypher:\n"+self.encryptedText)
 
     def encryptDataFile(self):
-        i=1
-        while os.path.exists(f"file{i}.txt"):
-            i+=1
-        try:
-            fileObj=open(f"file{i}.txt","w")
-            fileObj.write(self.encryptedText)
-            file_path = os.path.abspath(fileObj.name)
-            print(f"New file created with cyphered text at :{file_path}")
-            fileObj.close()
-        except Exception as x:
-            print(f"Error in creating encrypt file:\n{x}")
+        fileChoice=input("\n\nDo you want to name the file(y/n):")
+        if fileChoice=="y":
+            while True:
+                fname=input("Enter the name of the file you want to create:")
+                fname=f"{fname}.txt"
+                if os.path.exists(fname):
+                    print("File already exists.Input another name.")
+                else:
+                    break
+            try:
+                fileObj=open(fname,"w")
+                fileObj.write(self.encryptedText)
+                file_path = os.path.abspath(fileObj.name)
+                print(f"New file created with cyphered text at :{file_path}")
+                fileObj.close()
+            except Exception as e:
+                print(e)
+
+        else:
+            i=1
+            while os.path.exists(f"file{i}.txt"):
+                i+=1
+            try:
+                fileObj=open(f"file{i}.txt","w")
+                fileObj.write(self.encryptedText)
+                file_path = os.path.abspath(fileObj.name)
+                print(f"New file created with cyphered text at :{file_path}")
+                fileObj.close()
+            except Exception as x:
+                print(f"Error in creating encrypt file:\n{x}")
         
 
     def __str__(self) -> str:
