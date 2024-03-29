@@ -20,7 +20,7 @@ if choice=="E" or choice == "e":
     enObj.encrypt()
     del enObj
 
-if choice=="D" or choice=="d":
+elif choice=="D" or choice=="d":
     while True:
         fileName=input("Enter the name of the file:")
         if os.path.exists(fileName):
@@ -35,3 +35,6 @@ if choice=="D" or choice=="d":
     deObj=de(fileName,code)
     deObj.decrypt()
     del deObj
+
+else:
+    print("Incorrect choice.")
