@@ -10,20 +10,28 @@ class Decrypt:
         code=code//10
         self.code1=code
         try:
-            self.fileObj=open(self.fileName)
+            self.fileObjRead=open(self.fileName)
             try:
-                self.fileContent=self.fileObj.read()
+                self.fileContent=self.fileObjRead.read()
             except Exception as a:
                 print(a)
         except Exception as e:
             print(e)
+        finally:
+            self.fileObjRead.close()
     
     def decrypt(self):
         self.decryptedText=[]
         self.sepLines()
-        self.firstDecrypt()
-        self.secondDecrypt()
-        self.decryptDataFile()
+        x=str(self.fileLines[-1][-1])
+        if( x != 'en'):
+            print("The file is not yet encrypted, Firstly Encrypt the file")
+        else:
+            self.fileLines.pop()
+            self.firstDecrypt()
+            self.secondDecrypt()
+            self.decryptDataFile()
+            print("\nfile updated")
     
     def sepLines(self):
         self.fileLines=self.fileContent.split("\n")
@@ -69,41 +77,10 @@ class Decrypt:
         # print("second decrypt:\n"+self.decryptedText+"\n\n")
 
     def decryptDataFile(self):
-        fileChoice=input("\n\nDo you want to name the file(y/n):")
-        if fileChoice=="y":
-            while True:
-                fname=input("Enter the name of the file you want to create:")
-                fname=f"{fname}.txt"
-                if os.path.exists(fname):
-                    print("File already exists.Input another name.")
-                else:
-                    break
-            try:
-                fileObj=open(fname,"w")
-                fileObj.write(self.decryptedText)
-                file_path = os.path.abspath(fileObj.name)
-                print(f"New file created with cyphered text at :{file_path}")
-                fileObj.close()
-            except Exception as e:
-                print(e)
+        self.fileObjWrite=open(self.fileName,"w")    
+        self.fileObjWrite.write(self.decryptedText)
+        self.fileObjWrite.close() 
 
-        else:
-            i=1
-            while os.path.exists(f"file{i}.txt"):
-                i+=1
-            try:
-                fileObj=open(f"file{i}.txt","w")
-                fileObj.write(self.decryptedText)
-                file_path = os.path.abspath(fileObj.name)
-                print(f"New file created with cyphered text at :{file_path}")
-                fileObj.close()
-            except Exception as x:
-                print(f"Error in creating encrypt file:\n{x}")
-        
 
     def __str__(self) -> str:
         return f"file name: {self.fileName} code: {self.code}"
-    
-    def __del__(self):
-        print("file closed.")
-        self.fileObj.close()
